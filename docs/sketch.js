@@ -1,7 +1,8 @@
-let noiseScale = .02;
+let noiseScale = .01;
+//most info from watching daniel shiffman videos on youtube :)
 
 function setup() {
-  createCanvas(500, 500);
+  createCanvas(800, 800);
   noLoop(); // only draw once for rn
 }
 
@@ -13,7 +14,7 @@ function draw() {
     for (let x = 0; x < width; x++){
       let noiseValue = noise(x * noiseScale, y * noiseScale);
       let colorValue =  map(noiseValue, 0, 1, 0, 255);
-      let index = (x + y *width) *4;
+      let index = (x + y * width) *4;
       pixels[index] = colorValue; // red?
       pixels [ index + 1] = colorValue; // green?
       pixels [ index + 2] = colorValue; // blue?
