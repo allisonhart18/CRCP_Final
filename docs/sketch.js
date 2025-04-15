@@ -1,12 +1,12 @@
 function setup() {
-  createCanvas(windowWidth*0.75,windowHeight*0.75);
+  createCanvas(windowWidth * 0.75, windowHeight * 0.75);
   background(150);
-  strokeWeight(.7);
+  strokeWeight(0.6);
   frame = 0;
   numAcross = 40;
   size1 = (width - frame * 2) / numAcross;
   rez3 = 0.003;
-  len = size1 * 0.4;
+  len = size1 * 0.45;  // Increased line length
   stroke(0, 250);
   lines = [];
   lines2 = [];
@@ -19,11 +19,11 @@ function setup() {
 }
 
 function draw() {
-  background(150,15); // add alpha for transparent background??
+  background(150, 15); // add alpha for transparent background??
   for (j = 0; j < lines.length; j += 2) {
     oldX = lines[j];
     oldY = lines[j + 1];
-    n3 = noise(oldX * rez3, oldY * rez3,z*rez3) + 0.033;
+    n3 = noise(oldX * rez3, oldY * rez3, z * rez3) + 0.033;
     ang = map(n3, 0.3, 0.7, 0, PI * 2);
     
     newX = cos(ang) * len + oldX;
@@ -37,6 +37,8 @@ function draw() {
   }
   lines = lines2;
   lines2 = [];
-  z+=2;
- // for (q = 0; q < 10000; q++) {} 
+  z += 4; // Increase speed of noise evolution
+
+  // Delay loop removed, or alternatively, reduce iteration count if needed
+  // for (q = 0; q < 2000; q++) {}
 }
