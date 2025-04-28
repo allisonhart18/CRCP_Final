@@ -1,5 +1,11 @@
+let frame, numAcross, size1, rez3, len, lines, lines2, z;
+
 function setup() {
-  createCanvas(windowWidth * 0.75, windowHeight * 0.75);
+  createCanvas(windowWidth, windowHeight);
+  setupLines();
+}
+
+function setupLines() {
   background(150);
   strokeWeight(0.6);
   frame = 0;
@@ -10,8 +16,8 @@ function setup() {
   stroke(0, 250);
   lines = [];
   lines2 = [];
-  for (x = frame; x < width - frame + 1; x += size1) {
-    for (y = frame; y < height - frame + 1; y += size1) {
+  for (let x = frame; x < width - frame + 1; x += size1) {
+    for (let y = frame; y < height - frame + 1; y += size1) {
       lines.push(x, y);
     }
   }
@@ -19,15 +25,15 @@ function setup() {
 }
 
 function draw() {
-  background(150, 15); // add alpha for transparent background??
-  for (j = 0; j < lines.length; j += 2) {
-    oldX = lines[j];
-    oldY = lines[j + 1];
-    n3 = noise(oldX * rez3, oldY * rez3, z * rez3) + 0.033;
-    ang = map(n3, 0.3, 0.7, 0, PI * 2);
+  background(150, 15); // semi-transparent background
+  for (let j = 0; j < lines.length; j += 2) {
+    let oldX = lines[j];
+    let oldY = lines[j + 1];
+    let n3 = noise(oldX * rez3, oldY * rez3, z * rez3) + 0.033;
+    let ang = map(n3, 0.3, 0.7, 0, PI * 2);
     
-    newX = cos(ang) * len + oldX;
-    newY = sin(ang) * len + oldY;
+    let newX = cos(ang) * len + oldX;
+    let newY = sin(ang) * len + oldY;
     line(oldX, oldY, newX, newY);
     if ((newX > width || newX < 0) && (newY > height || newY < 0)) {
       newX = random(width);
@@ -37,8 +43,11 @@ function draw() {
   }
   lines = lines2;
   lines2 = [];
-  z += 4; // Increase speed of noise evolution
+  z += 4;
+}
 
-  // Delay loop removed, or alternatively, reduce iteration count if needed
-  // for (q = 0; q < 2000; q++) {}
+function keyPressed() {
+  if (key === ' ') {  // if space bar is pressed
+    setupLines();     // restart the lines
+  }
 }
