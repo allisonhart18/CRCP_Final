@@ -1,19 +1,23 @@
 let frame, numAcross, size1, rez3, len, lines, lines2, z;
+let currentStrokeColor;
+let fadingColors = false; // flag to start/stop fading
+let hueValue = 0; // for smooth color shifting
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  colorMode(HSB, 360, 100, 100, 255); // Use HSB color mode for smooth hue cycling
   setupLines();
 }
 
 function setupLines() {
-  background(150);
+  background(0);
   strokeWeight(0.6);
   frame = 0;
   numAcross = 40;
   size1 = (width - frame * 2) / numAcross;
   rez3 = 0.003;
-  len = size1 * 0.45;  // Increased line length
-  stroke(0, 250);
+  len = size1 * 0.45;
+  currentStrokeColor = color(0, 100, 100, 250); // start with bright color
   lines = [];
   lines2 = [];
   for (let x = frame; x < width - frame + 1; x += size1) {
@@ -25,7 +29,15 @@ function setupLines() {
 }
 
 function draw() {
-  background(150, 15); // semi-transparent background
+  background(0, 15);
+  
+  if (fadingColors) {
+    hueValue = (hueValue + 0.5) % 360; // slowly shift hue
+    currentStrokeColor = color(hueValue, 100, 100, 250);
+  }
+  
+  stroke(currentStrokeColor);
+  
   for (let j = 0; j < lines.length; j += 2) {
     let oldX = lines[j];
     let oldY = lines[j + 1];
@@ -47,7 +59,11 @@ function draw() {
 }
 
 function keyPressed() {
-  if (key === ' ') {  // if space bar is pressed
-    setupLines();     // restart the lines
+  if (key === ' ') {
+    setupLines();
+    fadingColors = false; // Reset fading when restarting
+  }
+  if (key === '1') {
+    fadingColors = true; // Start continuous fading
   }
 }
